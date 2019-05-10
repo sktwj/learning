@@ -112,6 +112,100 @@ b'\xf0\xf1\xf2'.hex()
 'C0A80001'
 ```
 
+### 2.4 一些常识
 
+- 空循环可利用好else
+```python
+>>> for n in range(2, 10):
+...     for x in range(2, n):
+...         if n % x == 0:
+...             print(n, 'equals', x, '*', n//x)
+...             break
+...     else:
+...         # loop fell through without finding a factor
+...         print(n, 'is a prime number')
+...
+2 is a prime number
+3 is a prime number
+4 equals 2 * 2
+5 is a prime number
+6 equals 2 * 3
+7 is a prime number
+8 equals 2 * 4
+9 equals 3 * 3
+```
 
+- except
+```python
+class B(Exception):
+    pass
+
+class C(B):
+    pass
+
+class D(C):
+    pass
+
+for cls in [B, C, D]:
+    try:
+        raise cls()
+    except D:
+        print("D")
+    except C:
+        print("C")
+    except B:
+        print("B")
+ B
+ C
+ D 
+```
+请注意如果 except 子句被颠倒（把 except B 放到第一个），它将打印 B，B，B --- 即第一个匹配的 except 子句被触发。
+
+-  Fibonacci 数列
+```python
+>>> def fib(n):    # write Fibonacci series up to n
+...     """Print a Fibonacci series up to n."""
+...     a, b = 0, 1
+...     while a < n:
+...         print(a, end=' ')
+...         a, b = b, a+b
+...     print()
+...
+>>> # Now call the function we just defined:
+... fib(2000)
+0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597
+```
+- python docstring
+
+第一行应该是对象目的的简要概述。为简洁起见，它不应显式声明对象的名称或类型，因为这些可通过其他方式获得（除非名称恰好是描述函数操作的动词）。这一行应以大写字母开头，以句点结尾。
+
+如果文档字符串中有更多行，则第二行应为空白，从而在视觉上将摘要与其余描述分开。后面几行应该是一个或多个段落，描述对象的调用约定，它的副作用等。
+
+```python
+>>> def my_function():
+...     """Do nothing, but document it.
+...
+...     No, really, it doesn't do anything.
+...     """
+...     pass
+...
+>>> print(my_function.__doc__)
+Do nothing, but document it.
+
+    No, really, it doesn't do anything.
+```
+
+- 函数标注
+
+```python
+>>> def f(ham: str, eggs: str = 'eggs') -> str:
+...     print("Annotations:", f.__annotations__)
+...     print("Arguments:", ham, eggs)
+...     return ham + ' and ' + eggs
+...
+>>> f('spam')
+Annotations: {'ham': <class 'str'>, 'return': <class 'str'>, 'eggs': <class 'str'>}
+Arguments: spam eggs
+'spam and eggs'
+```
 
