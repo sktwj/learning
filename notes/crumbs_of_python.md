@@ -288,4 +288,43 @@ class MappingSubclass(Mapping):
             
 上面的示例即使在 MappingSubclass 引入了一个 __update 标识符的情况下也不会出错，因为它会在 Mapping 类中被替换为 _Mapping__update 而在 MappingSubclass 类中被替换为 _MappingSubclass__update。
 ```
+- python 类单例模式
+
+```python
+
+def singleton(cls, *args, **kwargs):
+    instance = {}
+    
+    def get_instance(*args, **kwargs):
+        if cls not in instance:
+            instance[cls] = cls(*args, **kwargs)
+        return instance[cls]
+    
+    return get_instance
+       
+
+```
+
+- contextmanager
+
+```python
+class MyResource:
+
+    def query(self):
+        print("query data..")
+
+from contextlib import contextmanager
+
+@contextmanager
+def get_resource():
+    print("connect db..")
+    yield MyResource()
+    print("disconnect db..")
+
+with get_resource() as r:
+    r.query()
+    
+
+
+```
 
