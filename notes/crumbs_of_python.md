@@ -328,3 +328,7 @@ with get_resource() as r:
 
 ```
 
+### 2.5 python 解释器中方向键乱码
+
+    sudo apt install libreadline-dev
+    then reinstall this python version
