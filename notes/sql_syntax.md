@@ -1,7 +1,7 @@
 
 ## 记录
 
-1ORDER BY 多列
+1 ORDER BY 多列
 
 ```sql
 
