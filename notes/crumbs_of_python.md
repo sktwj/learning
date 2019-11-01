@@ -78,6 +78,8 @@ b'\xf0\xf1\xf2'.hex()
 >>> # with 0x, 0o, or 0b as prefix:
 >>> "int: {0:d};  hex: {0:#x};  oct: {0:#o};  bin: {0:#b}".format(42)
 'int: 42;  hex: 0x2a;  oct: 0o52;  bin: 0b101010'
+#的作用: 在8进制前面显示0o  16进制前面显示0x
+
 ```
 - 千分逗号
 ```python
