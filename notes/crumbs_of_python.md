@@ -330,7 +330,121 @@ with get_resource() as r:
 
 ```
 
+- from operator import itemgetter, attrgetter
+
+```python
+After f = itemgetter(2), the call f(r) returns r[2].
+
+After g = itemgetter(2, 5, 3), the call g(r) returns (r[2], r[5], r[3]).
+After f = attrgetter('name'), the call f(b) returns b.name.
+
+After f = attrgetter('name', 'date'), the call f(b) returns (b.name, b.date).
+
+After f = methodcaller('name'), the call f(b) returns b.name().
+
+After f = methodcaller('name', 'foo', bar=1), the call f(b) returns b.name('foo', bar=1).
+
+```
+
+- 多条件排序
+
+```python
+>>> student_objects = [
+...     Student('john', 'A', 15),
+...     Student('jane', 'B', 12),
+...     Student('dave', 'B', 10),
+... ]
+
+def multisort(xs, specs):
+...     for key, reverse in reversed(specs):
+...         xs.sort(key=attrgetter(key), reverse=reverse)
+...     return xs
+ multisort(list(student_objects), (('grade', True), ('age', False)))
+[('dave', 'B', 10), ('jane', 'B', 12), ('john', 'A', 15)]
+
+```
+
+
+- functools.lru_cache(maxsize=128, typed=False)
+
+```python
+@lru_cache(maxsize=None)
+def fib(n):
+    if n < 2:
+        return n
+    return fib(n-1) + fib(n-2)
+
+>>> [fib(n) for n in range(16)]
+[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610]
+
+>>> fib.cache_info()
+CacheInfo(hits=28, misses=16, maxsize=None, currsize=16)
+```
+
+- __getattr__ 和 __getattribute__
+
+```python
+__getattr__()与__getattribute__()
+这两个是类对象的魔法函数，在访问对象属性的时候会被调用，但是两者之间也有一点区别, 我们通过代码来看一下:
+
+class A(object):
+  def __init__(self, x):
+    self.x = x
+
+  def hello(self):
+    return 'hello func'
+
+  def __getattr__(self, item):
+    print('in __getattr__')
+    return 100
+
+  def __getattribute__(self, item):
+    print('in __getattribute__')
+    return super(A, self).__getattribute__(item)
+
+a = A(10)
+print(a.x)
+print(a.y)
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+运行代码，得到下面输出:
+
+in __getattribute__
+10
+in __getattribute__
+in __getattr__
+100
+1
+2
+3
+4
+5
+可以看出，在获到对象属性时，__getattribute__()是一定会被调用的，无论属性存不存在，首先都会调用这个魔法方法。
+
+如果调用像a.y这种不存在的对象时，调用__getattribute__()找不到y这个属性，就会再调用__getattr__()这个魔法方法，可以通过在这个方法里实来设置属性不存在时的默认值。使用上面的getattr()方法获取属性时，也是同样的调用关系，只不过只有在getattr()带第三个参数作为默认值时，才会调用
+__getattr__()方法。
+```
+使用__getattr__能大幅简化代码。Why we use python，life is short。
+
+
 ### 2.5 python 解释器中方向键乱码
 
     sudo apt install libreadline-dev
     then reinstall this python version
+    
