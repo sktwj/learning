@@ -8,6 +8,11 @@ Single Responsibility Principle
 
 Liskov Substitution Principle
 
+### 1.3 依赖倒置原则
 
+### 1.4 接口隔离原则
 
-
+### 1.5 迪米特法则
+Law of Demeter，LoD
+Least Knowledge Principle，LKP
+ 

@@ -448,3 +448,43 @@ __getattr__()方法。
     sudo apt install libreadline-dev
     then reinstall this python version
     
+### 单例脚本
+
+from tendo.singleton import SingleInstance
+在main 中
+me = SingleInstance()
+
+
+### 装饰器 检测 function 参数类型  
+
+```python
+def checked(func):
+    ann = func.__annotations__
+    sig = inspect.signature(func)
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        bound = sig.bind(*args, **kwargs)
+        for name, val in bound.arguments.items():
+            if name in ann:
+                assert isinstance(val, ann[name]), f'Excepted {ann[name]}'
+
+        return func(*args, **kwargs)
+    return wrapper
+
+@checked
+def gcd(a:int, b:int) -> int:
+
+    return a + b
+
+```
+
+
+### pyenv install python
+
+```bash
+sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
+libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
+xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
+    
+```
