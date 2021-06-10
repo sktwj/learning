@@ -488,3 +488,14 @@ libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
 xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
     
 ```
+
+
+### 简易进度条
+```python
+
+from tqdm import tqdm
+import time
+
+for i in tqdm(range(1000)):
+    time.sleep(.01)
+```
