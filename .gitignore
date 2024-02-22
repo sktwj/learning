@@ -1,2 +1,4 @@
 .idea
 .ropeproject
+__pycache__/
+
